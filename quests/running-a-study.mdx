@@ -1,0 +1,96 @@
+---
+title: "Running a Study"
+sidebarTitle: "Running a Study"
+description: "End-to-end guide for conducting a research study with NeuroFusion."
+---
+
+This guide covers the full lifecycle of running a research study on NeuroFusion — from planning through data export.
+
+## 1. Plan Your Study Design
+
+Before creating anything on the platform, outline:
+
+- **Research questions** — what are you investigating?
+- **Data types** — prompts (surveys), experiments (tasks), brain recordings, health metrics?
+- **Participant pool** — direct recruitment, Prolific, or in-lab?
+- **Duration** — single-session experiment, daily prompts for weeks/months, or both?
+- **Eligibility criteria** — do you need to screen participants? (age, consent, demographics)
+
+## 2. Create an Organization and Invite Collaborators
+
+1. [Create an organization](/organizations/creating-an-org) for your study
+2. Invite co-investigators and research assistants as members
+3. Assign [granular permissions](/organizations/members-and-permissions) — e.g., give RAs quest editing access but not billing access
+
+## 3. Build the Quest
+
+1. **Create a quest** under your organization ([Creating a Quest](/quests/creating-a-quest))
+2. **Add prompts** for recurring data collection ([Prompts](/prompts/overview))
+   - Choose response types, categories, and schedules
+   - Set up conditional notifications if prompts depend on prior answers
+3. **Add experiments** for interactive tasks ([Experiments](/experiments/overview))
+   - Write jsPsych code or paste existing experiments
+   - Upload stimulus media (images, audio, video)
+   - Configure ordering for multi-experiment quests
+4. **Configure onboarding** for consent and screening ([Onboarding](/onboarding/overview))
+   - Write a full-text consent overview
+   - Add screening questions with question guards
+   - Enable kiosk mode if using shared devices
+
+## 4. Fund the Organization
+
+Check your org's credit balance and [purchase credits](/billing/purchasing-credits) if needed. Use the **[price calculator](https://usefusion.ai/pricing)** to estimate your total study cost based on participant count, prompts, experiments, and data types.
+
+<Tip>
+  Quest creation and onboarding responses are **free** — you only start spending credits when you publish and participants join.
+</Tip>
+
+## 5. Publish and Recruit
+
+1. Click **Publish** on your quest
+2. Share with participants via:
+   - **Direct link** — copy the quest URL
+   - **QR code** — for in-person recruitment
+   - **Prolific** — paste the quest URL as your Prolific study URL. Prolific parameters (`PROLIFIC_PID`, `STUDY_ID`, `SESSION_ID`) are captured automatically. See [Prolific Integration](/integrations/prolific).
+
+## 6. Monitor Responses and Billing
+
+From your organization dashboard:
+
+- **Participant count** — see how many people have joined
+- **Response data** — view prompt responses and experiment data as they come in
+- **Billing summary** — track per-quest spending, broken down by item type and source (web vs. mobile)
+- **Transaction history** — review all credit transactions
+
+## 7. Export and Analyze Data
+
+- Export prompt responses, experiment data, and recordings for analysis in your preferred tools (R, Python, SPSS, etc.)
+- On mobile, participants can export experiment data as JSON files
+- Data types available for export:
+  - `prompt_responses` — answers to recurring prompts
+  - `experiment_data` — jsPsych experiment results
+  - `brain_recordings` — EEG data from Neurosity Crown or Muse
+  - `health_data` — steps, sleep, heart rate from wearables
+  - `onboarding_responses` — screening question answers
+
+## Running a Study with Prolific
+
+If you're recruiting through [Prolific](https://www.prolific.co/):
+
+1. Build and publish your quest on NeuroFusion
+2. Copy the quest run URL (e.g., `https://usefusion.ai/quest/<guid>`)
+3. Create a study on Prolific and paste the quest URL as the study URL
+4. Prolific injects `PROLIFIC_PID`, `STUDY_ID`, and `SESSION_ID` as URL parameters
+5. These are automatically passed to your experiments via `jatos.urlQueryParameters`
+6. Configure your experiment to redirect to Prolific's completion URL when finished
+
+<Info>
+  See [Prolific Integration](/integrations/prolific) for the full setup guide.
+</Info>
+
+## Tips
+
+- **Test the full flow yourself** before launching — join your own quest as a participant to verify onboarding, prompts, and experiments work as expected
+- **Monitor billing early** — check the expense breakdown after the first few participants to project total costs
+- **Use kiosk mode** for in-lab studies where multiple participants share the same device
+- Participants can complete experiments on **both web and mobile** — plan your study design accordingly

@@ -1,0 +1,80 @@
+---
+title: "Onboarding Questions"
+sidebarTitle: "Questions"
+description: "Add screening questions to collect eligibility data and baseline information before participants join."
+---
+
+Onboarding questions are pre-join screening questions shown to participants after the [full-text overview](/onboarding/full-text-overview) (if configured). Use them for eligibility screening, demographic collection, and baseline data.
+
+## Question Fields
+
+Each onboarding question has:
+
+| Field | Required? | Description |
+|---|---|---|
+| **Question text** | ✅ Yes | The question shown to the participant |
+| **Response type** | ✅ Yes | How participants answer (see table below) |
+| **Options** | For `customOptions` only | Array of option strings |
+| **Required** | — | Whether the question must be answered (defaults to `true` for new questions) |
+| **Validation rule** | Optional | A [question guard](/onboarding/question-guards) for eligibility screening |
+
+## Response Types
+
+Onboarding questions support the same 5 response types as prompts:
+
+| Response Type | UI Rendering | Notes |
+|---|---|---|
+| `text` | Text input field | Free-form answer |
+| `yesno` | Two radio buttons: "Yes" / "No" | Binary choice |
+| `number` | Numeric input field | Numeric answer |
+| `numberRange` | Numeric input with bounds | Bounded numeric |
+| `customOptions` | Radio buttons **or** checkboxes | See below |
+
+### Custom Options Rendering
+
+The rendering of `customOptions` depends on whether a [question guard](/onboarding/question-guards) is set:
+
+- If the guard uses `in` or `not_in` → **checkboxes** (multi-select), answer stored as comma-separated values
+- Otherwise → **radio buttons** (single-select)
+
+<Warning>
+  Options in onboarding questions are entered as **comma-separated** values (e.g., `Student, Professional, Retired, Other`). This is different from prompt custom options, which use **semicolons**.
+</Warning>
+
+## Adding Questions
+
+1. Open your quest in the editor
+2. Navigate to the onboarding section
+3. Click **Add Question**
+4. Enter the question text
+5. Select a response type
+6. If using `customOptions`, enter the options
+7. Optionally toggle **Required** (on by default)
+8. Optionally add a [validation rule (question guard)](/onboarding/question-guards)
+
+## Validation
+
+**Client-side**: All required questions must have a non-empty, trimmed answer before the form can be submitted.
+
+**Server-side**: If any question has a [question guard](/onboarding/question-guards), the answers are validated server-side. Failed validations show rejection messages and block the participant from joining.
+
+## Data Storage
+
+- Onboarding responses are saved as a dataset with type `onboarding_responses`
+- Source is tagged as `web` or `mobile` depending on where the participant completed onboarding
+- Onboarding responses are **free** — they are not billed
+
+<Info>
+  Onboarding responses are submitted **before** the participant joins the quest. This is different from prompt responses, which are submitted after joining.
+</Info>
+
+## Example
+
+A typical eligibility screening setup:
+
+| Question | Type | Guard |
+|---|---|---|
+| "How old are you?" | `number` | Must be ≥ 18 |
+| "Do you consent to participate?" | `yesno` | Must equal "Yes" |
+| "What is your primary language?" | `customOptions` (English, Spanish, French, Other) | Must be "English" or "Spanish" |
+| "Describe any relevant medical conditions" | `text` | None (informational only) |

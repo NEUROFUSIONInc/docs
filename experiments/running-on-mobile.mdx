@@ -1,0 +1,74 @@
+---
+title: "Running Experiments on Mobile"
+sidebarTitle: "Running on Mobile"
+description: "Participants can complete experiments in the Fusion mobile app on iOS and Android."
+---
+
+The Fusion mobile app supports running jsPsych experiments directly on participants' phones and tablets. Experiments render in a WebView with automatic orientation handling and local-first data storage.
+
+## How It Works
+
+1. Participant opens the quest in the Fusion mobile app
+2. Taps on an experiment card to start
+3. The experiment loads in a **full-screen WebView**
+4. Screen **locks to landscape orientation** for the duration of the experiment
+5. When the experiment calls `jatos.endStudy(data)`, the data is captured
+6. Screen returns to **portrait orientation**
+7. A completion alert shows the number of trials recorded
+
+## Data Flow
+
+| Step | What Happens |
+|---|---|
+| **Capture** | `jatos.endStudy()` is intercepted by the React Native bridge |
+| **Local save** | Data is saved to AsyncStorage immediately (offline-safe) |
+| **Server sync** | Data is uploaded to Azure Blob Storage when connection is available |
+| **Dataset record** | Saved as `experiment_data` with source `mobile` |
+
+<Info>
+  Data is saved **locally first**, so experiment data is not lost if the participant loses connectivity during or after the experiment. It syncs to the server automatically when a connection is available.
+</Info>
+
+## Differences from Web
+
+| Feature | Web | Mobile |
+|---|---|---|
+| **Orientation** | No forced orientation | Locks to landscape during experiments |
+| **Data storage** | Direct server upload | Local-first with background sync |
+| **CORS/CSP** | Browser-handled | Auto-injected by the app |
+| **Error handling** | Standard browser console | Captures `console.error`, unhandled rejections, and global errors |
+| **Export** | Download from dashboard | Share as JSON file via device share sheet |
+
+## Export on Mobile
+
+Participants can export their experiment data directly from the mobile app:
+
+1. Navigate to the completed experiment
+2. Use the **export** option
+3. Data is saved as a JSON file and shared via the device's share sheet (AirDrop, email, Files, etc.)
+
+This uses `expo-file-system` and `expo-sharing` under the hood.
+
+## When to Use Mobile vs. Web
+
+| Use Case | Recommended |
+|---|---|
+| In-field / take-home studies | ✅ Mobile |
+| Prolific recruitment | ✅ Web |
+| EEG sessions with mobile app | ✅ Mobile |
+| Large-screen experiments (complex layouts) | ✅ Web |
+| Studies requiring precise keyboard input | ✅ Web |
+| Participants without computer access | ✅ Mobile |
+| Lab-based with shared computers | ✅ Web + [Kiosk Mode](/onboarding/kiosk-mode) |
+
+## Tips
+
+<Tip>
+  Design your experiment layout to work well in **landscape orientation** on phone-sized screens. Test on actual devices before launching.
+</Tip>
+
+- Experiments run on both iOS and Android through the Fusion app
+- The same experiment code works on both web and mobile — no separate version needed
+- Mobile data is tagged with source `mobile` so you can distinguish it from web data in your analysis
+- If your experiment uses touch input instead of keyboard, it will work naturally on mobile
+- Benign CORS "Script error." messages are automatically filtered on mobile

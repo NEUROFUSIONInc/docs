@@ -1,0 +1,65 @@
+---
+title: "Sharing & Publishing"
+sidebarTitle: "Sharing & Publishing"
+description: "Publish your quest, share it with participants, and manage collaborator access."
+---
+
+Once your quest is built and tested, you can publish it to make it accessible to participants and share it through multiple channels.
+
+## Publishing
+
+Publishing makes your quest **live** — participants can access it via its URL.
+
+1. Open your quest in the editor
+2. Click **Publish**
+3. The quest is now accessible at its URL
+
+<Warning>
+  Publishing consumes credits from the quest's organization. Make sure the org has sufficient credits before publishing. See [Pricing](https://usefusion.ai/pricing) for current costs.
+</Warning>
+
+### Unpublishing
+
+You can unpublish a quest at any time to take it offline. Existing data is preserved, but new participants can no longer join.
+
+## Sharing Your Quest
+
+Once published, share the quest with participants:
+
+### Direct Link
+
+Copy the quest URL (e.g., `https://usefusion.ai/quest/<guid>`) and share it via email, messaging, or your study recruitment platform.
+
+### QR Code
+
+Generate a QR code from the share modal for in-person recruitment — print it for posters, flyers, or display it at a study site.
+
+### Prolific
+
+Use the quest URL as your Prolific study URL. Prolific's participant ID parameters are captured automatically. See [Prolific Integration](/integrations/prolific) for a step-by-step guide.
+
+## Collaborator Access
+
+Collaborator access is now managed through **organizations**, replacing the old public-key method.
+
+To give other researchers access to manage your quest:
+
+1. Add them as members of the quest's organization
+2. Assign appropriate [permissions](/organizations/members-and-permissions) — e.g., `quest.edit`, `quest.view_data`, `quest.publish`
+
+This gives you fine-grained control over what each collaborator can do.
+
+<Warning>
+  **Deprecation notice**: The old method of adding collaborators via public key (from the profile page) has been replaced by organization membership. If you previously used that flow, migrate your collaborators to organization members.
+</Warning>
+
+## Transferring Quests Between Organizations
+
+You can move a quest from one organization to another — useful when restructuring teams or transferring ownership.
+
+- Requires appropriate permissions on **both** the source and target organizations
+- Use the quest transfer feature in the organization dashboard
+
+<Info>
+  See [Managing Quests](/organizations/managing-quests) for details on quest transfers.
+</Info>

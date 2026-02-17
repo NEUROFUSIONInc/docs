@@ -1,0 +1,70 @@
+---
+title: "Managing Quests"
+sidebarTitle: "Managing Quests"
+description: "Assign quests to organizations and transfer them between orgs."
+---
+
+Every quest in Fusion belongs to an organization. The organization determines who can edit the quest, where billing is charged, and who has access to collected data.
+
+## Creating a Quest in an Organization
+
+When you create or edit a quest, the **organization selector** appears in the quest form:
+
+- Select which organization the quest belongs to
+- All billing for the quest (publishing, data collection, etc.) is charged to that organization's credits
+- Members with the appropriate permissions can view and edit the quest
+
+<Info>
+  Quests **must** belong to an organization. The organization selector is required when creating a quest.
+</Info>
+
+Helper text in the editor reads: *"Quests must belong to an organization. Billing and permissions are managed at the org level."*
+
+## Quest Ownership Rules
+
+| Action | Required Permission |
+|---|---|
+| Create a quest | `quest:create` in the target org |
+| Edit any quest | `quest:update_any` or `admin` |
+| Edit your own quest | `quest:update_own` |
+| Publish a quest | `quest:publish` |
+| Delete a quest | `quest:delete` |
+
+## Transferring Quests
+
+You can transfer a quest from one organization to another. This is useful when:
+
+- A quest needs to be handed off to another team
+- An organization is being reorganized
+- A study is moving between labs or departments
+
+### How to Transfer
+
+1. Open the quest you want to transfer
+2. Use the **Transfer Quest** option
+3. Select the destination organization
+4. Confirm the transfer
+
+### Transfer Rules
+
+| Scenario | Requirement |
+|---|---|
+| Transfer **from** an organization | `quest:create` or `admin` permission in the source org |
+| Transfer **to** an organization | `quest:create` or `admin` permission in the target org |
+
+<Warning>
+  Transferring a quest moves all billing responsibility to the destination organization. Existing expenses stay with the original org, but future charges go to the new org.
+</Warning>
+
+## Bulk Transfers
+
+A bulk transfer tool is available for moving multiple quests at once — useful during lab onboarding or when migrating between organizations.
+
+## Viewing Organization Quests
+
+Each organization has a dashboard showing all quests owned by that org, including:
+
+- Quest name and status (draft / published)
+- Number of participants
+- Total expenses
+- Last updated date

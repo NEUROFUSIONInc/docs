@@ -1,0 +1,49 @@
+---
+title: "Kiosk Mode"
+sidebarTitle: "Kiosk Mode"
+description: "Re-show the onboarding flow every session for shared devices and in-lab setups."
+---
+
+Kiosk mode is an onboarding setting that **re-shows the full onboarding flow every session**, even for participants who have already joined the quest. It's designed for shared devices where multiple people use the same browser or app.
+
+## Default Behavior (Kiosk Off)
+
+When kiosk mode is **disabled** (the default):
+
+1. A participant opens the quest URL for the first time → sees onboarding → joins the quest
+2. The same participant opens the quest URL again → **skips onboarding** → goes directly to quest content
+
+## Kiosk Behavior (Kiosk On)
+
+When kiosk mode is **enabled**:
+
+1. A participant opens the quest URL → sees onboarding → joins the quest
+2. The same participant (or a different person on the same device) opens the quest URL again → **sees onboarding again** → must complete the overview acknowledgment and questions every time
+
+## When to Use Kiosk Mode
+
+| Scenario | Why |
+|---|---|
+| **Lab computers** shared by multiple participants | Each participant needs to see the consent form and answer screening questions |
+| **Conference or event demo stations** | Walk-up stations where different people try the quest |
+| **Clinical settings** with shared tablets | Patients use the same device in a waiting room or clinic |
+| **Classroom studies** | Students share computers in a lab setting |
+
+## How to Enable
+
+1. Open your quest in the editor
+2. Navigate to the onboarding section
+3. Toggle **Kiosk Mode** on
+
+The setting is stored in `onboardingConfig.isKiosk`.
+
+## Important Notes
+
+<Warning>
+  Kiosk mode only affects the onboarding flow. It does **not** log out the user or reset other session state. If you need full session isolation on shared devices, consider additional measures like browser private/incognito mode.
+</Warning>
+
+- The full-text overview (if configured) is re-shown with the acknowledgment checkbox
+- All onboarding questions (if any) are re-shown and must be answered again
+- Question guard validation runs again every session
+- Onboarding responses are saved as a new dataset entry each time

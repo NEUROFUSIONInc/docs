@@ -1,13 +1,140 @@
 ---
 title: "FAQs"
-description: "Here are some frequently asked questions about us."
+description: "Frequently asked questions about NeuroFusion."
 sidebarTitle: "FAQs"
 ---
 
-**Q:** Can NeuroFusion integrate with my existing tools?
+## General
 
-**A:** Yes, NeuroFusion seamlessly integrates with wearables, EEG devices, and other research tools.
+<AccordionGroup>
+  <Accordion title="What is NeuroFusion?">
+    NeuroFusion is a research platform for designing studies, collecting behavioral and brain data, and analyzing results. It supports prompts (recurring surveys), jsPsych experiments, wearable integrations, and EEG recordings — all managed through organizations with built-in billing.
+  </Accordion>
+  <Accordion title="Who is NeuroFusion for?">
+    Researchers, clinicians, and study administrators in cognitive neuroscience, behavioral science, psychology, health research, education, and social sciences.
+  </Accordion>
+  <Accordion title="Is NeuroFusion free?">
+    Signing up and creating organizations is free. New organizations receive bonus starter credits. Certain actions — publishing quests, participant joins, data submissions — consume credits. See [Billing & Credits](/billing/overview) and the [Pricing page](https://usefusion.ai/pricing) for details.
+  </Accordion>
+</AccordionGroup>
 
-**Q:** Is NeuroFusion compliant with data privacy regulations?
+## Prompts
 
-**A:** Absolutely. NeuroFusion adheres to GDPR, HIPAA, and other global standards.
+<AccordionGroup>
+  <Accordion title="What response types are available for prompts?">
+    There are 5 response types: **Yes/No**, **Text**, **Number**, **Number Range** (with configurable min/max), and **Custom Options** (semicolon-separated, single or multi-select). See [Response Types](/prompts/response-types) for details.
+  </Accordion>
+  <Accordion title="How do I schedule prompts?">
+    Each prompt has three scheduling dimensions: **active days** (which days of the week), **time window** (start and end time, defaults 8 AM–10 PM), and **frequency** (once, every 30 min, hourly, every 2/3/4 hours). See [Scheduling](/prompts/scheduling).
+  </Accordion>
+  <Accordion title="What are conditional notifications?">
+    You can configure a prompt to only send notifications if a participant's answer to a previous prompt or onboarding question meets a condition. For example, "Only ask about caffeine if they reported poor sleep." See [Conditional Notifications](/prompts/conditional-notifications).
+  </Accordion>
+  <Accordion title="How many prompts can a quest have?">
+    There is no hard limit on the number of prompts, but every quest requires at least one prompt to be saved.
+  </Accordion>
+</AccordionGroup>
+
+## Onboarding & Consent
+
+<AccordionGroup>
+  <Accordion title="What are question guards?">
+    Question guards are server-side validation rules on onboarding questions that determine whether a participant is eligible to join a quest. For example, you can block participants under 18 by setting a guard: `operator: gte, value: 18`. See [Question Guards](/onboarding/question-guards).
+  </Accordion>
+  <Accordion title="Can I block ineligible participants?">
+    Yes. Configure question guards on your onboarding questions. If a participant's answer fails validation, they see a rejection message and cannot join the quest. This is enforced server-side.
+  </Accordion>
+  <Accordion title="What is kiosk mode?">
+    Kiosk mode re-shows the onboarding flow (consent overview + questions) every session, even for participants who have already joined. This is useful for shared devices in labs, clinics, or events. See [Kiosk Mode](/onboarding/kiosk-mode).
+  </Accordion>
+  <Accordion title="Is the full-text overview required?">
+    No. Both the full-text overview and onboarding questions are optional. A quest can have neither, one, or both.
+  </Accordion>
+</AccordionGroup>
+
+## Experiments
+
+<AccordionGroup>
+  <Accordion title="What experiment frameworks are supported?">
+    The experiment editor provides a default **jsPsych 8.0.3** template with 13 pre-loaded plugins. You can write any HTML/JavaScript experiment that calls `jatos.endStudy()` to submit data. See [Experiment Editor](/experiments/experiment-editor).
+  </Accordion>
+  <Accordion title="Can I upload images, audio, and video for my experiments?">
+    Yes. The media uploader supports JPEG, PNG, GIF, WebP, SVG (images), MP3, WAV, OGG (audio), and MP4, WebM, OGG (video). Maximum file size is **25 MB** per file. See [Media Uploads](/experiments/media-uploads).
+  </Accordion>
+  <Accordion title="Can participants run experiments on mobile?">
+    Yes. The Fusion mobile app (iOS and Android) supports running experiments in a WebView with automatic landscape orientation lock. Data is saved locally first and synced to the server. See [Running on Mobile](/experiments/running-on-mobile).
+  </Accordion>
+  <Accordion title="Can a quest have multiple experiments?">
+    Yes. A quest can hold multiple experiments with defined ordering. Participants see a horizontal list of experiment cards and can complete them sequentially. See [Ordering & Assignment](/experiments/ordering-and-assignment).
+  </Accordion>
+</AccordionGroup>
+
+## Organizations
+
+<AccordionGroup>
+  <Accordion title="Who can create an organization?">
+    Any NeuroFusion user can create an organization. The creator automatically becomes the admin.
+  </Accordion>
+  <Accordion title="Can I be in multiple organizations?">
+    Yes. You can be a member of multiple organizations with different permission levels in each.
+  </Accordion>
+  <Accordion title="How do I transfer a quest between organizations?">
+    You need appropriate permissions on both the source and target organizations. Use the quest transfer feature in the org dashboard. See [Managing Quests](/organizations/managing-quests).
+  </Accordion>
+  <Accordion title="What permissions are available?">
+    There are 18 granular permissions across 5 categories: Admin, Organization, Quest, Credits, and Data. See [Members & Permissions](/organizations/members-and-permissions) for the full reference table.
+  </Accordion>
+</AccordionGroup>
+
+## Billing & Pricing
+
+<AccordionGroup>
+  <Accordion title="What do credits cost?">
+    You can purchase credits in preset packages or enter a custom amount. Payment is via Stripe. See the [Pricing page](https://usefusion.ai/pricing) for current packages and the [Purchasing Credits](/billing/purchasing-credits) guide.
+  </Accordion>
+  <Accordion title="What actions are billable?">
+    Publishing a quest, participant joins, prompt responses, experiment submissions, brain recordings, health data syncs, dataset storage, and data analysis. Quest creation and onboarding responses are **free**. See the [Pricing page](https://usefusion.ai/pricing) for current costs, or [Expense Breakdown](/billing/expense-breakdown) for per-quest tracking.
+  </Accordion>
+  <Accordion title="Can I fund another organization's credits?">
+    Yes. You can transfer credits to another org with an optional note. This requires the `credits:transfer` permission. See [Funding Other Orgs](/billing/funding-other-orgs).
+  </Accordion>
+</AccordionGroup>
+
+## Data & Privacy
+
+<AccordionGroup>
+  <Accordion title="Where is my data stored?">
+    Data is stored on Azure Blob Storage. Experiment data and brain recordings are stored as files in blob storage. Prompt responses and onboarding responses are stored in the platform database.
+  </Accordion>
+  <Accordion title="Is NeuroFusion compliant with data privacy regulations?">
+    Yes. NeuroFusion adheres to GDPR, HIPAA, and other global standards. Researchers retain full control over dataset access and sharing permissions.
+  </Accordion>
+  <Accordion title="Can I export my data?">
+    Yes. Data can be exported from the platform for analysis in external tools (e.g., R, Python, SPSS). On mobile, participants can export experiment data as JSON files.
+  </Accordion>
+</AccordionGroup>
+
+## Prolific
+
+<AccordionGroup>
+  <Accordion title="How do I connect my quest to Prolific?">
+    Use your quest's run URL as the study URL in Prolific. No special configuration is needed — NeuroFusion automatically captures Prolific URL parameters (`PROLIFIC_PID`, `STUDY_ID`, `SESSION_ID`). See [Prolific Integration](/integrations/prolific).
+  </Accordion>
+  <Accordion title="Are Prolific participant IDs captured?">
+    Yes. All URL parameters are automatically passed to experiments via `jatos.urlQueryParameters`, so `PROLIFIC_PID` is included in your experiment data.
+  </Accordion>
+</AccordionGroup>
+
+## Mobile
+
+<AccordionGroup>
+  <Accordion title="Which platforms does the mobile app support?">
+    The Fusion mobile app is available on both iOS and Android.
+  </Accordion>
+  <Accordion title="Can participants run experiments on mobile?">
+    Yes. Experiments run in a WebView with landscape orientation lock. Data is saved locally and synced to the server. See [Running on Mobile](/experiments/running-on-mobile).
+  </Accordion>
+  <Accordion title="Can I integrate wearable data?">
+    Yes. NeuroFusion integrates with wearables for health data collection (steps, sleep, heart rate) and EEG devices like Neurosity Crown and Muse. See [Brain Interfaces](/integrations/brain-interfaces) and [Wearables](/integrations/wearables).
+  </Accordion>
+</AccordionGroup>

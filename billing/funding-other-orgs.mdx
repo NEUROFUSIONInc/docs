@@ -1,0 +1,63 @@
+---
+title: "Funding Other Organizations"
+sidebarTitle: "Funding Other Orgs"
+description: "Transfer credits between organizations to fund collaborators or sub-teams."
+---
+
+You can transfer credits from one organization to another. This is useful for funding collaborators, sub-teams, or partner labs that are running studies on your behalf.
+
+## Requirements
+
+- You must have the `credits:transfer` permission (or be an admin) in the **sending** organization
+- The **receiving** organization must already exist
+- You need to know the receiving organization's name (searchable, minimum 3 characters)
+
+## Transfer Limits
+
+Minimum and maximum transfer amounts apply. See the **[Pricing page](https://usefusion.ai/pricing)** for current limits.
+
+<Warning>
+  You cannot transfer credits to the **same** organization. The source and destination must be different orgs.
+</Warning>
+
+## How to Transfer
+
+1. Navigate to your organization's **Billing** page
+2. Click **Transfer Credits**
+3. Search for the destination organization (type at least 3 characters)
+4. Enter the amount to transfer
+5. Optionally add a **note** describing the purpose (up to 280 characters)
+6. Click **Transfer**
+
+## What Happens
+
+When you complete a transfer:
+
+| Side | Effect |
+|---|---|
+| **Sending org** | Balance decreases by the transfer amount. A transaction record is created with direction `outgoing`. |
+| **Receiving org** | Balance increases by the transfer amount. A transaction record is created with direction `incoming`. |
+
+Both organizations can see the transfer in their transaction history, including:
+
+- The transfer amount
+- The other organization's name
+- The note (if provided)
+- The direction (incoming/outgoing)
+- The timestamp
+
+## Use Cases
+
+| Scenario | Example |
+|---|---|
+| **Funding a collaborator** | A PI transfers $100 to a partner lab running a sub-study |
+| **Departmental budgeting** | A department org funds individual lab orgs at the start of the semester |
+| **Splitting costs** | Two labs co-running a study split the budget via transfer |
+| **Student research** | A supervisor transfers credits to a student's org for their thesis study |
+
+## Tips
+
+- Transfers are **instant** — credits appear in the receiving org immediately
+- Both parties can see the full transfer details in their transaction history
+- Use the **note** field to document the purpose (e.g., "Funding for Spring 2026 attention study")
+- You can make multiple transfers — there's no limit on the number of transfers, only per-transfer amount limits

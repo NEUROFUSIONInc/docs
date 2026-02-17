@@ -1,0 +1,95 @@
+---
+title: "Conditional Notifications"
+sidebarTitle: "Conditional Notifications"
+description: "Trigger prompts based on a participant's answer to a previous prompt or onboarding question."
+---
+
+Conditional notifications let you configure a prompt to **only fire if a participant's previous answer meets a specific condition**. This is an advanced feature for creating adaptive, branching study flows.
+
+## How It Works
+
+Each prompt can have an optional **notify condition** with four fields:
+
+| Field | Description |
+|---|---|
+| **Source Type** | What kind of question to check: `prompt` (another prompt in the quest) or `onboarding` (an onboarding question) |
+| **Source ID** | Which specific prompt or onboarding question to evaluate |
+| **Operator** | The comparison operator |
+| **Value** | The value to compare the participant's answer against |
+
+When a condition is set, the prompt's notification is **only sent** if the participant's answer to the source question satisfies the condition.
+
+## Available Operators
+
+| Operator | Label | Description |
+|---|---|---|
+| `eq` | Equals | Exact match (case-insensitive) |
+| `neq` | Not equals | Does not match |
+| `gt` | Greater than | Numeric: answer > value |
+| `gte` | Greater than or equal | Numeric: answer ≥ value |
+| `lt` | Less than | Numeric: answer < value |
+| `lte` | Less than or equal | Numeric: answer ≤ value |
+
+## Source Options
+
+The source list is built from:
+
+- **All other prompts** in the same quest (excluding the current prompt)
+- **All onboarding questions** in the quest
+
+This means you can use either a participant's ongoing prompt responses or their initial onboarding answers to determine whether a follow-up prompt should fire.
+
+## Examples
+
+### Follow-up on Poor Sleep
+
+> Only ask about caffeine if the participant reported sleeping poorly.
+
+| Field | Value |
+|---|---|
+| Source Type | `prompt` |
+| Source | _"Did you sleep well last night?"_ (yesno prompt) |
+| Operator | `eq` |
+| Value | `No` |
+
+**Result**: The caffeine prompt only fires when the participant answered "No" to the sleep prompt.
+
+### High Stress Follow-up
+
+> Only ask about stress coping strategies if stress rating is high.
+
+| Field | Value |
+|---|---|
+| Source Type | `prompt` |
+| Source | _"Rate your stress level (1–10)"_ (numberRange prompt) |
+| Operator | `gte` |
+| Value | `7` |
+
+**Result**: The coping strategies prompt only fires when the participant rated stress ≥ 7.
+
+### Based on Onboarding Answer
+
+> Only send exercise prompts to participants who indicated they exercise regularly.
+
+| Field | Value |
+|---|---|
+| Source Type | `onboarding` |
+| Source | _"Do you exercise regularly?"_ (yesno onboarding question) |
+| Operator | `eq` |
+| Value | `Yes` |
+
+**Result**: Exercise-related prompts only fire for participants who answered "Yes" during onboarding.
+
+## Tips
+
+<Tip>
+  Conditional notifications are evaluated at notification time. The condition checks the participant's **most recent** response to the source question.
+</Tip>
+
+<Warning>
+  A prompt with a conditional notification will **never fire** if the source question hasn't been answered yet. Make sure the source prompt is scheduled before the conditional prompt.
+</Warning>
+
+- Use conditions to reduce participant burden — only ask follow-up questions when relevant
+- Combine with the scheduling system to create sophisticated adaptive study protocols
+- You can only set **one** condition per prompt

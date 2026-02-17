@@ -1,0 +1,46 @@
+---
+title: "Purchasing Credits"
+sidebarTitle: "Purchasing Credits"
+description: "Buy credits via Stripe to fund your organization's quests and data collection."
+---
+
+Credits can be purchased using a credit or debit card through **Stripe**. Payments are processed securely and credits are added to your organization immediately upon successful payment.
+
+## Requirements
+
+- You must have the `credits:purchase` permission in the organization (or be an admin)
+- A valid credit or debit card
+
+## Credit Packages
+
+Choose from preset packages or enter a custom amount. See the **[Pricing page](https://usefusion.ai/pricing)** for current package details and amounts.
+
+## How to Purchase
+
+1. Navigate to your organization's **Billing** page
+2. Click **Add Credits**
+3. Select a preset package or enter a custom amount
+4. Click **Purchase** — you'll be redirected to Stripe Checkout
+5. Complete payment with your card
+6. Credits are added to your organization's balance automatically
+
+## Payment Processing
+
+| Step | What Happens |
+|---|---|
+| Checkout started | A pending transaction is created |
+| Payment succeeds | Transaction marked as completed, credits added |
+| Payment fails | Transaction marked as failed, no credits added |
+| Session expires | Transaction marked as expired |
+
+<Info>
+  A Stripe customer is automatically created for your organization the first time you make a purchase. Subsequent purchases use the same Stripe customer.
+</Info>
+
+## Purchase Limits
+
+Minimum and maximum purchase amounts apply. See the **[Pricing page](https://usefusion.ai/pricing)** for current limits.
+
+## Receipts
+
+Stripe provides receipts for all purchases. You can access them through your Stripe payment confirmation email.

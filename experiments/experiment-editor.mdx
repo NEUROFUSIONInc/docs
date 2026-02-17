@@ -1,0 +1,111 @@
+---
+title: "Experiment Editor"
+sidebarTitle: "Experiment Editor"
+description: "Write and preview jsPsych experiments with the built-in Monaco code editor."
+---
+
+The experiment editor is a **full-screen modal** where you write, edit, and preview your experiment code. It includes a code editor with a default jsPsych template and a live preview for testing.
+
+## Editor Layout
+
+The editor has three main sections:
+
+1. **Metadata fields** — Name (required), description, and image URL
+2. **Media uploader** — drag-and-drop component for uploading images, audio, and video (see [Media Uploads](/experiments/media-uploads))
+3. **Code editor** — Monaco editor (the same editor used in VS Code) for writing HTML/JavaScript
+4. **Live preview** — toggleable side-by-side preview to test your experiment
+
+## Default jsPsych Template
+
+When you create a new experiment, the editor starts with a **jsPsych 8.0.3** template that includes a complete HTML document with the following plugins pre-loaded:
+
+| Plugin | Description |
+|---|---|
+| `html-button-response` | Display HTML content, respond with a button click |
+| `html-keyboard-response` | Display HTML content, respond with a keypress |
+| `image-keyboard-response` | Display an image, respond with a keypress |
+| `image-button-response` | Display an image, respond with a button click |
+| `instructions` | Multi-page instruction screens with navigation |
+| `survey-text` | Free-text survey questions |
+| `audio-keyboard-response` | Play audio, respond with a keypress |
+| `video-keyboard-response` | Play video, respond with a keypress |
+| `video-button-response` | Play video, respond with a button click |
+| `html-slider-response` | Display HTML content, respond with a slider |
+| `call-function` | Run arbitrary JavaScript at a point in the timeline |
+| `fullscreen` | Enter or exit fullscreen mode |
+| `preload` | Preload images, audio, and video before trials begin |
+
+You can modify the template, remove plugins you don't need, or add additional jsPsych plugins via CDN.
+
+## Writing Your Experiment
+
+The experiment code is a complete HTML document. A minimal jsPsych experiment looks like:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://unpkg.com/jspsych@8.0.3"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+  <link rel="stylesheet" href="https://unpkg.com/jspsych@8.0.3/css/jspsych.css">
+</head>
+<body>
+  <script>
+    const jsPsych = initJsPsych({
+      on_finish: function() {
+        jatos.endStudy(jsPsych.data.get().json());
+      }
+    });
+
+    const trial = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p>Press any key to continue.</p>'
+    };
+
+    jsPsych.run([trial]);
+  </script>
+</body>
+</html>
+```
+
+<Warning>
+  Your experiment **must** call `jatos.endStudy(data)` when it finishes. This is how NeuroFusion captures the experiment data. Without this call, no data will be saved.
+</Warning>
+
+## Using Uploaded Media
+
+After uploading media files (see [Media Uploads](/experiments/media-uploads)), you can reference them in your experiment code using their URLs:
+
+```javascript
+const trial = {
+  type: jsPsychImageKeyboardResponse,
+  stimulus: 'https://your-uploaded-image-url.blob.core.windows.net/image.png',
+  choices: ['f', 'j']
+};
+```
+
+Use the **Copy URL** button in the media uploader to grab the URL for each file.
+
+## Live Preview
+
+Toggle the **live preview** to see your experiment running side-by-side with the code editor. This lets you:
+
+- Test your experiment without publishing the quest
+- Verify that stimuli display correctly
+- Check the flow of trials
+- Debug timing and response issues
+
+## Validation
+
+Both **name** and **code** are required to save an experiment. The editor will prevent saving if either is empty.
+
+## Tips
+
+<Tip>
+  Use the `preload` plugin to load all images, audio, and video before the experiment starts. This prevents delays during trials.
+</Tip>
+
+- Start with the default template and modify it — it has all the common plugins ready to use
+- Test with the live preview frequently as you build
+- Use `jsPsych.data.get().json()` to pass all trial data to `jatos.endStudy()`
+- If you need plugins not in the default template, add them via CDN `<script>` tags

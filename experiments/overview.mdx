@@ -1,0 +1,65 @@
+---
+title: "Experiments Overview"
+sidebarTitle: "Overview"
+description: "Add interactive jsPsych experiments to your quests — with multi-experiment support, media uploads, and mobile compatibility."
+---
+
+Experiments are **interactive tasks** — typically built with jsPsych — that participants complete as part of a quest. A quest can hold multiple experiments with defined ordering, and participants can run them on both web and mobile.
+
+## What Is an Experiment?
+
+Each experiment in a quest has:
+
+| Field | Required? | Description |
+|---|---|---|
+| **Name** | ✅ Yes | Display name shown on the experiment card |
+| **Description** | Optional | Short description shown below the name |
+| **Image URL** | Optional | Thumbnail image for the experiment card |
+| **Code** | ✅ Yes | HTML/JavaScript code (typically jsPsych) |
+| **Duration (minutes)** | Optional | Estimated time shown to participants |
+| **Category** | Optional | Category tag |
+| **Instructions** | Optional | HTML instructions shown before the experiment |
+
+## Multi-Experiment Quests
+
+A quest can have **multiple experiments**. When participants view the quest:
+
+- Experiments are displayed as **horizontally scrollable cards** with thumbnail, name, description, and duration
+- The active experiment is **highlighted**
+- Clicking a card selects that experiment
+- Participants can complete experiments in sequence
+
+## Data Flow
+
+When a participant completes an experiment:
+
+1. The jsPsych experiment calls `jatos.endStudy(data)` to submit results
+2. Data is captured by the NeuroFusion runner
+3. Saved locally first (for offline resilience on mobile)
+4. Synced to the server and stored in Azure Blob Storage
+5. Recorded as an `experiment_data` dataset
+
+## Billing
+
+Each experiment data submission is billed as `quest_experiment` to the quest's organization. See the **[Pricing page](https://usefusion.ai/pricing)** for current costs.
+
+## Backward Compatibility
+
+Older quests with a single `experimentUrl` string (the legacy format) continue to work. The system automatically treats them as a single-experiment quest.
+
+## Explore
+
+<CardGroup cols={2}>
+  <Card title="Experiment Editor" icon="code" href="/experiments/experiment-editor">
+    Monaco code editor, jsPsych template, and live preview.
+  </Card>
+  <Card title="Media Uploads" icon="image" href="/experiments/media-uploads">
+    Upload images, audio, and video for your experiments.
+  </Card>
+  <Card title="Ordering & Assignment" icon="list-ol" href="/experiments/ordering-and-assignment">
+    Order experiments and use assignment scripts for counterbalancing.
+  </Card>
+  <Card title="Running on Mobile" icon="mobile" href="/experiments/running-on-mobile">
+    Run experiments in the Fusion mobile app.
+  </Card>
+</CardGroup>

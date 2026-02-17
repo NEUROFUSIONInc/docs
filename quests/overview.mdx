@@ -1,0 +1,63 @@
+---
+title: "Quests Overview"
+sidebarTitle: "Overview"
+description: "Understand quests — the top-level container for your research studies on NeuroFusion."
+---
+
+A **quest** is the top-level container for a research study on NeuroFusion. It bundles together everything a study needs: prompts for recurring data collection, experiments for interactive tasks, onboarding for consent and screening, and health data configuration.
+
+## Quest Anatomy
+
+Every quest contains a configuration object with the following components:
+
+| Component | Required? | Description |
+|---|---|---|
+| **Prompts** | ✅ Yes (min 1) | Recurring questions delivered on a schedule. See [Prompts](/prompts/overview). |
+| **Onboarding Questions** | Optional | Pre-join screening questions for eligibility. See [Onboarding](/onboarding/overview). |
+| **Onboarding Overview** | Optional | Rich HTML consent language shown before questions. See [Full-Text Overview](/onboarding/full-text-overview). |
+| **Experiments** | Optional | Interactive jsPsych tasks. See [Experiments](/experiments/overview). |
+| **Health Data Config** | Optional | Toggles for collecting `steps`, `sleep`, and `heart_rate` from wearables. |
+| **Assignment** | Optional | Python script for counterbalancing / conditional experiment assignment. See [Ordering & Assignment](/experiments/ordering-and-assignment). |
+| **Post-Experiment Script** | Optional | Python code to run after experiment completion. |
+
+## Quest Lifecycle
+
+1. **Draft** — Quest is created and saved but not yet visible to participants
+2. **Published** — Quest is live and accessible via its URL (consumes credits — see [Pricing](https://usefusion.ai/pricing))
+3. **Active** — Participants have joined and are submitting data
+4. **Unpublished** — Quest is taken offline; existing data is preserved
+
+## Organization Scope
+
+Every quest belongs to an **organization**. When creating a quest, you select the organization using a dropdown. All billable actions on the quest (publishing, participant joins, data submissions) are charged to the quest's organization.
+
+<Info>
+  You must create an organization before creating a quest. See [Creating an Organization](/organizations/creating-an-org) to get started.
+</Info>
+
+## Data Types Collected
+
+| Dataset Type | Source | Description |
+|---|---|---|
+| `prompt_responses` | Web / Mobile | Answers to recurring prompts |
+| `onboarding_responses` | Web / Mobile | Answers to onboarding questions (free — not billed) |
+| `experiment_data` | Web / Mobile | jsPsych experiment results (stored in Azure Blob) |
+| `brain_recordings` | Web / Mobile | EEG recordings from Neurosity Crown or Muse |
+| `health_data` | Mobile | Steps, sleep, heart rate from wearables |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Creating a Quest" icon="plus" href="/quests/creating-a-quest">
+    Step-by-step guide to building your first quest.
+  </Card>
+  <Card title="Prompts" icon="bell" href="/prompts/overview">
+    Configure recurring data-collection questions.
+  </Card>
+  <Card title="Onboarding" icon="clipboard-check" href="/onboarding/overview">
+    Set up consent and eligibility screening.
+  </Card>
+  <Card title="Experiments" icon="flask" href="/experiments/overview">
+    Add interactive jsPsych experiments.
+  </Card>
+</CardGroup>

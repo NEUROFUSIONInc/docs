@@ -1,0 +1,72 @@
+---
+title: "Full-Text Overview"
+sidebarTitle: "Full-Text Overview"
+description: "Display rich consent content that participants must acknowledge before proceeding."
+---
+
+The full-text overview is a **rich HTML content block** displayed to participants as the first step of onboarding, before any questions. It's designed for informed consent language, study descriptions, and data usage policies.
+
+## How It Works
+
+1. When a participant opens a quest with a configured overview, they see the HTML content rendered in a styled container
+2. Below the content is a **mandatory acknowledgment checkbox**: _"I have read and understand the information above"_
+3. The **Continue** button is disabled until the checkbox is checked
+4. After acknowledging, participants proceed to onboarding questions (if any) or directly to joining the quest
+
+## Configuration
+
+The overview is configured in the quest editor's onboarding section:
+
+- **Content field** — enter or paste rich HTML content
+- Stored in `onboardingConfig.content` as an HTML string
+- If left empty, the overview step is skipped entirely
+
+## What to Include
+
+A good overview should cover:
+
+- **Study title and principal investigator** — who is running this study
+- **Purpose** — what the study is investigating
+- **What's expected** — duration, tasks (prompts, experiments), time commitment
+- **Data usage** — how data will be collected, stored, and used
+- **Privacy** — who has access to the data, how long it's retained
+- **Risks and benefits** — any potential risks and what participants gain
+- **Voluntary participation** — participants can withdraw at any time
+- **Contact information** — who to reach out to with questions
+
+<Tip>
+  Keep language accessible — aim for an 8th-grade reading level. Avoid jargon where possible and define technical terms when you must use them.
+</Tip>
+
+## Example
+
+Here's an example of content you might put in the overview:
+
+```html
+<h2>Informed Consent — Daily Mood Study</h2>
+<p><strong>Principal Investigator:</strong> Dr. Jane Smith, Department of Psychology</p>
+
+<h3>Purpose</h3>
+<p>This study examines daily mood patterns and their relationship to sleep quality
+over a 4-week period.</p>
+
+<h3>What You'll Do</h3>
+<ul>
+  <li>Answer 3 short prompts each day (takes ~2 minutes)</li>
+  <li>Complete one 5-minute cognitive experiment at the start and end of the study</li>
+</ul>
+
+<h3>Data & Privacy</h3>
+<p>Your responses are stored securely on encrypted servers. Only the research team
+has access to identified data. Published results will use anonymized, aggregate data only.</p>
+
+<h3>Contact</h3>
+<p>Questions? Email <a href="mailto:study@example.com">study@example.com</a></p>
+```
+
+## Notes
+
+- The overview content supports any valid HTML — you can include headings, lists, links, bold text, etc.
+- Content is rendered inside a `prose` container for clean typography
+- The overview is optional — if you don't need a consent form, you can skip it
+- If you need to re-show the overview to returning participants (e.g., on shared devices), enable [Kiosk Mode](/onboarding/kiosk-mode)

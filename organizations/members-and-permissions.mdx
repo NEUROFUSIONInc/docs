@@ -1,0 +1,111 @@
+---
+title: "Members & Permissions"
+sidebarTitle: "Members & Permissions"
+description: "Add team members and assign granular permissions across 5 categories."
+---
+
+Organizations support multiple members, each with a customizable set of permissions. This lets you control exactly who can create quests, spend credits, access data, and more.
+
+## Adding Members
+
+Members are added by **searching for existing Fusion users** by username:
+
+1. Navigate to your organization's settings
+2. Go to the **Members** tab
+3. Search for a user by username
+4. Select permissions to grant
+5. Click **Add Member**
+
+<Info>
+  The user must already have a Fusion account. There is no email invitation flow — add members by their existing username.
+</Info>
+
+### Default Permissions for New Members
+
+When you add a member, they start with these permissions:
+
+- `quest:create` — Create Quest
+- `quest:update_own` — Update Own Quests
+- `credits:view_balance` — View Credit Balance
+- `data:view` — View Data
+
+## The 18 Permissions
+
+Permissions are organized into **5 categories**:
+
+### Administrator
+
+| Permission | Description | Sensitive |
+|---|---|---|
+| `admin` | Full administrator access — can do everything, including granting admin to others | ✅ |
+
+### Organization Management
+
+| Permission | Description | Sensitive |
+|---|---|---|
+| `org:manage_members` | Add and remove members, change permissions | ✅ |
+| `org:manage_settings` | Edit organization name and settings | ❌ |
+| `org:delete` | Delete the entire organization | ✅ |
+
+### Quest Management
+
+| Permission | Description | Sensitive |
+|---|---|---|
+| `quest:create` | Create new quests | ❌ |
+| `quest:update_any` | Edit any quest in the organization | ❌ |
+| `quest:update_own` | Edit quests you created | ❌ |
+| `quest:delete` | Delete quests | ✅ |
+| `quest:publish` | Publish and unpublish quests | ❌ |
+| `quest:add_participants` | Add participants to quests | ❌ |
+
+### Credit Management
+
+| Permission | Description | Sensitive |
+|---|---|---|
+| `credits:view_balance` | View the organization's credit balance | ❌ |
+| `credits:spend` | Perform actions that spend credits | ❌ |
+| `credits:purchase` | Buy credits with a payment method | ✅ |
+| `credits:transfer` | Transfer credits to other organizations | ✅ |
+
+### Data Access
+
+| Permission | Description | Sensitive |
+|---|---|---|
+| `data:view` | View collected data | ❌ |
+| `data:download` | Download datasets | ❌ |
+| `data:make_public` | Mark datasets as publicly accessible | ✅ |
+| `data:run_analysis` | Run AI analysis on datasets | ❌ |
+
+<Warning>
+  Permissions marked as **sensitive** can only be granted by admins. Non-admin members cannot grant or revoke sensitive permissions.
+</Warning>
+
+## Modifying Permissions
+
+Admins can update any member's permissions at any time:
+
+1. Go to the **Members** tab in your organization
+2. Click on the member you want to edit
+3. Toggle permissions on or off
+4. Save changes
+
+## Owner & Admin Safeguards
+
+Several safeguards protect organization integrity:
+
+| Rule | Description |
+|---|---|
+| **Cannot remove yourself** | Use "Leave Organization" instead of removing yourself |
+| **Owner cannot leave** | The organization creator cannot leave the organization |
+| **Last admin protection** | The last admin cannot have their admin permission removed |
+| **Only admins manage admins** | Only admins can add/remove other admins or grant sensitive permissions |
+
+## Recommended Role Patterns
+
+| Role | Suggested Permissions |
+|---|---|
+| **Principal Investigator** | `admin` (full access) |
+| **Lab Manager** | `org:manage_members`, `quest:update_any`, `quest:publish`, `credits:purchase`, `credits:view_balance`, `data:view`, `data:download` |
+| **Research Assistant** | `quest:create`, `quest:update_own`, `quest:add_participants`, `data:view`, `data:download`, `credits:view_balance` |
+| **Data Analyst** | `data:view`, `data:download`, `data:run_analysis`, `credits:view_balance` |
+| **External Collaborator** | `data:view`, `credits:view_balance` |

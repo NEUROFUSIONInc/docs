@@ -1,0 +1,103 @@
+---
+title: "Ordering & Assignment"
+sidebarTitle: "Ordering & Assignment"
+description: "Order experiments within a quest and use assignment scripts for counterbalancing."
+---
+
+When a quest has multiple experiments, you can control the **order** participants see them and use **assignment scripts** to determine which experiment each participant receives.
+
+## Experiment Ordering
+
+Experiments in a quest are displayed in the order they appear in the quest configuration:
+
+- Participants see a **horizontal scrollable list of experiment cards** showing the thumbnail, name, description, and estimated duration
+- The **active experiment** is highlighted
+- Clicking a card selects that experiment and updates the URL
+- The order is determined by the array order in the quest config
+
+To reorder experiments, rearrange them in the quest editor.
+
+## Assignment Editor
+
+The assignment editor is an advanced feature for **counterbalancing**, **conditional assignment**, or **randomization**. It lets you write a script that determines which experiment a participant gets assigned to.
+
+### How It Works
+
+1. You write a **Python script** in the assignment editor
+2. You **map onboarding question responses** to script input variables
+3. When a participant joins, the script runs with their onboarding answers as inputs
+4. The script output determines which experiment the participant sees
+
+### Configuration
+
+The assignment configuration has:
+
+| Field | Description |
+|---|---|
+| **Script** | Python code to execute |
+| **Language** | Script language (`python` or `javascript`) |
+| **Variable Mapping** | Maps an onboarding question (source ID) to a placeholder variable name |
+
+### Variable Mapping
+
+For each variable:
+
+1. Select a **source** — an onboarding question
+2. Enter a **placeholder name** — the variable name used in the script
+3. The participant's answer to that question is injected as the variable's value when the script runs
+
+### Example: Random Assignment
+
+Randomly assign participants to one of two experiment conditions:
+
+```python
+import random
+
+# No variables needed — purely random
+condition = random.choice(["control", "treatment"])
+print(condition)
+```
+
+### Example: Age-Based Assignment
+
+Assign different experiments based on participant age (collected during onboarding):
+
+```python
+# Variable mapping: onboarding question "How old are you?" → age
+age = int(age)  # injected from onboarding response
+
+if age < 25:
+    print("young_adult_protocol")
+elif age < 65:
+    print("adult_protocol")
+else:
+    print("older_adult_protocol")
+```
+
+### Example: Counterbalancing
+
+Assign participants to alternating conditions:
+
+```python
+import hashlib
+
+# Variable mapping: onboarding question "participant ID" → participant_id
+hash_val = int(hashlib.md5(participant_id.encode()).hexdigest(), 16)
+condition = "A" if hash_val % 2 == 0 else "B"
+print(condition)
+```
+
+## How Assignment Data Is Used
+
+The assignment script output is stored alongside the quest's assignment configuration. The server fetches onboarding responses for assignment scripts via the dataset API with type `onboarding_responses`.
+
+<Info>
+  Assignment scripts currently support **Python** and **JavaScript**. Python is the most common choice.
+</Info>
+
+## Tips
+
+- Use assignment scripts for between-subjects designs where different groups see different experiments
+- Combine with [onboarding questions](/onboarding/questions) to collect the variables your script needs
+- Test your script thoroughly before publishing — incorrect assignment logic can compromise your study design
+- For simple random assignment, you don't need any variable mappings — just use Python's `random` module

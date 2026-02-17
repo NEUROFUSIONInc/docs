@@ -1,0 +1,102 @@
+---
+title: "Prolific Integration"
+sidebarTitle: "Prolific"
+description: "Recruit participants from Prolific and automatically capture their IDs in your experiment data."
+---
+
+Fusion integrates with **Prolific** through URL parameter pass-through. When a Prolific participant clicks through to your quest, their Prolific identifiers are automatically captured and included in your experiment data.
+
+## How It Works
+
+1. You set up a study on Prolific with your quest URL
+2. Prolific appends participant identifiers to the URL as query parameters
+3. Fusion captures **all URL query parameters** and passes them to your experiments
+4. Experiment data is saved with the Prolific IDs in the metadata
+
+## Prolific URL Parameters
+
+Prolific appends three standard parameters to your study URL:
+
+| Parameter | Description |
+|---|---|
+| `PROLIFIC_PID` | The participant's unique Prolific ID |
+| `STUDY_ID` | Your Prolific study ID |
+| `SESSION_ID` | The session ID for this particular attempt |
+
+## Setting Up a Prolific Study
+
+### Step 1: Get Your Quest URL
+
+1. Create and publish your quest on Fusion
+2. Copy the quest's public URL (e.g., `https://usefusion.ai/quests/your-quest-guid/run`)
+
+### Step 2: Configure Prolific
+
+1. Create a new study on Prolific
+2. Set the **study URL** to your quest URL with Prolific's parameter placeholders:
+
+```
+https://usefusion.ai/quests/your-quest-guid/run?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
+```
+
+Prolific will replace the placeholders with actual values when participants click through.
+
+### Step 3: Access Parameters in Your Experiment
+
+URL parameters are injected into your experiment as global JavaScript variables. In your jsPsych code:
+
+```javascript
+// Access Prolific IDs directly as global variables
+const prolificPid = typeof PROLIFIC_PID !== 'undefined' ? PROLIFIC_PID : null;
+const studyId = typeof STUDY_ID !== 'undefined' ? STUDY_ID : null;
+const sessionId = typeof SESSION_ID !== 'undefined' ? SESSION_ID : null;
+
+// Or access all URL params via the urlParams object
+const allParams = typeof urlParams !== 'undefined' ? urlParams : {};
+console.log(allParams.PROLIFIC_PID);
+
+// Include in your data
+const jsPsych = initJsPsych({
+  on_finish: function() {
+    const data = jsPsych.data.get().json();
+    jatos.endStudy(data);
+  }
+});
+```
+
+<Info>
+  All URL parameters with valid JavaScript identifier names are automatically set as `window` properties. You can also access them via the global `urlParams` object which contains all parameters. Each parameter value is limited to 10KB.
+</Info>
+
+## How Prolific Data Appears in Exports
+
+When experiment data is saved, the URL parameters (including Prolific IDs) are included in the dataset metadata:
+
+```json
+{
+  "urlParams": {
+    "PROLIFIC_PID": "5f1a2b3c4d5e6f",
+    "STUDY_ID": "abc123def456",
+    "SESSION_ID": "xyz789"
+  }
+}
+```
+
+This makes it easy to match experiment data back to participants in Prolific.
+
+## Additional URL Parameters
+
+You can append **any custom URL parameters** beyond the standard Prolific ones. They'll all be captured and passed through:
+
+```
+https://usefusion.ai/quests/guid/run?PROLIFIC_PID={{%PROLIFIC_PID%}}&condition=treatment&group=A
+```
+
+In this example, `condition` and `group` would also be available as global variables in your experiment.
+
+## Tips
+
+- Test your study URL by appending fake parameters and verifying they appear in the experiment
+- Use [onboarding](/onboarding/overview) to collect informed consent before the experiment begins
+- Prolific completion redirects are handled externally — add a final jsPsych trial with a "Return to Prolific" link using your Prolific completion URL
+- See [Running a Study](/quests/running-a-study) for the full end-to-end workflow with Prolific

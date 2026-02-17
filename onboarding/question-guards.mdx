@@ -1,0 +1,126 @@
+---
+title: "Question Guards"
+sidebarTitle: "Question Guards"
+description: "Server-side validation rules that screen participants for eligibility before they can join a quest."
+---
+
+Question guards (also called consent gates or validation rules) are **server-side validation rules** on onboarding questions. They determine whether a participant is eligible to join a quest based on their answers.
+
+## How They Work
+
+1. Participant fills out onboarding questions
+2. Answers are sent to the server: `POST /quest/validate-onboarding`
+3. Every question with a guard is evaluated
+4. If **any** guard fails → participant is blocked with rejection messages
+5. If **all** guards pass → participant can proceed to join
+
+<Warning>
+  Guard validation is **server-side** — it cannot be bypassed by participants.
+</Warning>
+
+## Guard Configuration
+
+Each guard has three fields:
+
+| Field | Type | Description |
+|---|---|---|
+| **Operator** | string | The comparison operator (see table below) |
+| **Value** | string | The expected value. Single value for `eq/neq/gt/gte/lt/lte`. Comma-separated for `in/not_in`. |
+| **Rejection Message** | string | Custom message shown to the participant if they fail. Default: _"Your response does not meet the requirements for this study."_ |
+
+## Available Operators
+
+Which operators are available depends on the question's response type:
+
+| Response Type | Available Operators |
+|---|---|
+| `text` | `eq` (Equals), `neq` (Not equals) |
+| `yesno` | `eq` (Equals), `neq` (Not equals) |
+| `number` | `eq`, `neq`, `gt` (Greater than), `gte` (Greater than or equal), `lt` (Less than), `lte` (Less than or equal) |
+| `numberRange` | `eq`, `neq`, `gt`, `gte`, `lt`, `lte` |
+| `customOptions` | `eq` (Equals), `neq` (Not equals), `in` (Is one of), `not_in` (Is not one of) |
+
+### Operator Details
+
+| Operator | Label | Behavior |
+|---|---|---|
+| `eq` | Equals | Case-insensitive exact match |
+| `neq` | Not equals | Case-insensitive non-match |
+| `gt` | Greater than | Parses as float: answer > value |
+| `gte` | Greater than or equal | Parses as float: answer ≥ value |
+| `lt` | Less than | Parses as float: answer < value |
+| `lte` | Less than or equal | Parses as float: answer ≤ value |
+| `in` | Is one of | Value is comma-separated. Answer (lowercased) must be in the set |
+| `not_in` | Is not one of | Value is comma-separated. Answer (lowercased) must NOT be in the set |
+
+<Info>
+  When you change a question's response type, the operator resets to the first valid option if the current operator is no longer available for the new type.
+</Info>
+
+## Rejection Behavior
+
+When a participant fails validation:
+
+- **Per-question**: Each failed question shows its rejection message in a **red inline box** below the question
+- **Global**: A **yellow warning banner** appears: _"You do not meet the eligibility criteria for this quest."_
+- The participant **cannot proceed** and cannot join the quest
+
+## Adding a Guard
+
+1. Open a quest and navigate to the onboarding section
+2. Click on an onboarding question (or add a new one)
+3. Check **"Add validation rule (consent gate)"**
+4. Select an **operator** from the dropdown
+5. Enter the expected **value**
+6. Optionally customize the **rejection message**
+
+## Worked Examples
+
+### Must Be 18 or Older
+
+| Field | Value |
+|---|---|
+| Question | "How old are you?" |
+| Response type | `number` |
+| Operator | `gte` |
+| Value | `18` |
+| Rejection message | "You must be at least 18 years old to participate in this study." |
+
+**Behavior**: If a participant enters 17, they see the rejection message and cannot join.
+
+### Must Consent to Data Collection
+
+| Field | Value |
+|---|---|
+| Question | "Do you consent to your data being collected and used for research purposes?" |
+| Response type | `yesno` |
+| Operator | `eq` |
+| Value | `Yes` |
+| Rejection message | "Consent is required to participate in this study." |
+
+**Behavior**: If a participant selects "No", they see the rejection message and cannot join.
+
+### Must Be in Target Demographic
+
+| Field | Value |
+|---|---|
+| Question | "What is your occupation?" |
+| Response type | `customOptions` |
+| Options | Student, Professional, Retired, Other |
+| Operator | `in` |
+| Value | `Student,Professional` |
+| Rejection message | "This study is only open to students and working professionals." |
+
+**Behavior**: If a participant selects "Retired" or "Other", they see the rejection message and cannot join.
+
+### Exclude a Specific Condition
+
+| Field | Value |
+|---|---|
+| Question | "Do you have a history of epilepsy?" |
+| Response type | `yesno` |
+| Operator | `eq` |
+| Value | `No` |
+| Rejection message | "Due to the nature of the visual stimuli in this study, participants with a history of epilepsy cannot participate." |
+
+**Behavior**: If a participant selects "Yes", they see the rejection message and cannot join.

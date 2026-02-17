@@ -1,0 +1,86 @@
+---
+title: "Billing & Credits Overview"
+sidebarTitle: "Overview"
+description: "Understand the Fusion credit system — how credits work, what costs what, and how to manage spending."
+---
+
+Fusion uses a **credit-based billing system**. Credits are the currency for all platform actions — publishing quests, storing data, running experiments, and more.
+
+## How Credits Work
+
+| Concept | Value |
+|---|---|
+| **1 credit** | 1 cent |
+| **Starter bonus** | Free credits for every new organization |
+
+Credits are managed at the **organization level**. Every action that costs credits is charged to the organization that owns the quest. See the **[Pricing page](https://usefusion.ai/pricing)** for current credit values and costs.
+
+## What Costs Credits
+
+The following actions consume credits from your organization's balance:
+
+| Action | Category |
+|---|---|
+| Publish a quest | Quest & Experiments |
+| Participant joins a quest | Quest & Experiments |
+| Experiment data submission | Quest & Experiments |
+| Brain recording (EEG) | Data Collection |
+| Prompt response stored | Data Collection |
+| Health data sync (wearable) | Data Collection |
+| Dataset storage | Storage |
+| AI data analysis | Analysis & AI |
+
+For current prices, see the **[Pricing page](https://usefusion.ai/pricing)**.
+
+### Free Actions
+
+These actions are **free** and do not consume credits:
+
+- Creating a quest (draft)
+- Editing a quest
+- Adding prompts and experiments
+- Configuring onboarding
+- Onboarding responses (no charge)
+- Viewing data in the dashboard
+- Adding organization members
+
+## Re-Publishing Is Free
+
+The first time you publish a quest, it costs credits. **Re-publishing** the same quest (after unpublishing and making changes) is free — the system checks for a prior publish transaction.
+
+## Debt Tolerance
+
+Some operations allow a small amount of debt to prevent data loss:
+
+| Action | Debt Allowed |
+|---|---|
+| Publishing a quest | ❌ No — strict check, returns error if balance too low |
+| Data collection (experiment, prompt, EEG, etc.) | ✅ Yes — small debt allowed |
+
+<Info>
+  Data collection actions never fail due to insufficient credits. The system allows a small amount of debt so participant data is never lost. Publishing, however, requires a sufficient balance.
+</Info>
+
+## Low Balance Warning
+
+When your organization's credit balance is running low, an amber warning appears on the dashboard:
+
+> *"Your credit balance is running low. Add credits to continue using premium features."*
+
+## Price Calculator
+
+Use the **interactive price calculator** at [usefusion.ai/pricing](https://usefusion.ai/pricing) to estimate costs for your study based on participant count, prompts, experiments, and data types.
+
+## Explore
+
+<CardGroup cols={3}>
+  <Card title="Purchasing Credits" icon="cart-shopping" href="/billing/purchasing-credits">
+    Buy credits with Stripe.
+  </Card>
+  <Card title="Expense Breakdown" icon="chart-pie" href="/billing/expense-breakdown">
+    Track spending per quest and item type.
+  </Card>
+  <Card title="Funding Other Orgs" icon="arrow-right-arrow-left" href="/billing/funding-other-orgs">
+    Transfer credits between organizations.
+  </Card>
+</CardGroup>

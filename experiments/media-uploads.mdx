@@ -1,0 +1,112 @@
+---
+title: "Media Uploads"
+sidebarTitle: "Media Uploads"
+description: "Upload images, audio, and video to use as stimuli in your experiments."
+---
+
+The media uploader lets you upload files to use as stimuli in your jsPsych experiments. Files are stored in Azure Blob Storage and accessible via public URLs.
+
+## Supported File Types
+
+| Type | Formats |
+|---|---|
+| **Images** | JPEG, PNG, GIF, WebP, SVG |
+| **Audio** | MP3, WAV, OGG |
+| **Video** | MP4, WebM, OGG |
+
+## Limits
+
+- Maximum file size: **25 MB** per file
+- No limit on the number of files
+
+## How to Upload
+
+1. Open your quest in the editor and navigate to an experiment
+2. In the experiment editor, find the **media uploader** section
+3. **Drag and drop** files onto the upload area, or **click** to browse and select files
+4. Files upload immediately and appear in the media gallery below
+
+<Warning>
+  Media upload is only available **after the quest is saved for the first time**. The quest needs a GUID to associate uploaded files with. Save the quest first, then add media.
+</Warning>
+
+## Using Uploaded Files in Experiments
+
+After uploading, each file gets a public URL. To use it in your experiment:
+
+1. Find the file in the media gallery
+2. Click the **Copy URL** button
+3. Paste the URL into your experiment code as a stimulus:
+
+```javascript
+// Image stimulus
+const trial = {
+  type: jsPsychImageKeyboardResponse,
+  stimulus: 'https://your-storage.blob.core.windows.net/uploads/face_01.png',
+  choices: ['f', 'j'],
+  prompt: '<p>Press F for happy, J for sad</p>'
+};
+
+// Audio stimulus
+const audioTrial = {
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: 'https://your-storage.blob.core.windows.net/uploads/tone_500hz.mp3',
+  choices: ['y', 'n']
+};
+
+// Video stimulus
+const videoTrial = {
+  type: jsPsychVideoButtonResponse,
+  stimulus: ['https://your-storage.blob.core.windows.net/uploads/clip.mp4'],
+  choices: ['Continue']
+};
+```
+
+<Tip>
+  Use the `preload` plugin to load all media before the experiment starts. This prevents buffering delays during trials.
+
+  ```javascript
+  const preload = {
+    type: jsPsychPreload,
+    images: ['https://...face_01.png', 'https://...face_02.png'],
+    audio: ['https://...tone_500hz.mp3']
+  };
+  ```
+</Tip>
+
+## Managing Uploads
+
+- **View**: All uploaded files appear in a gallery below the upload area
+- **Delete**: Click the delete button on any file to remove it from storage
+- Deleting a file **does not** automatically update experiment code that references it — update your code manually
+
+## Example Workflow
+
+Building a face-recognition experiment:
+
+1. Create and save your quest
+2. Add an experiment called "Face Recognition Task"
+3. Upload your face images (e.g., `happy_01.png`, `sad_01.png`, `neutral_01.png`)
+4. Copy each image URL
+5. Reference the URLs in your jsPsych timeline:
+
+```javascript
+const faces = [
+  { stimulus: 'https://.../happy_01.png', correct_response: 'h' },
+  { stimulus: 'https://.../sad_01.png', correct_response: 's' },
+  { stimulus: 'https://.../neutral_01.png', correct_response: 'n' }
+];
+
+const trial = {
+  type: jsPsychImageKeyboardResponse,
+  stimulus: jsPsych.timelineVariable('stimulus'),
+  choices: ['h', 's', 'n'],
+  data: { correct_response: jsPsych.timelineVariable('correct_response') }
+};
+
+const procedure = {
+  timeline: [trial],
+  timeline_variables: faces,
+  randomize_order: true
+};
+```

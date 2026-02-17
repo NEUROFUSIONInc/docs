@@ -23,30 +23,80 @@
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://usefusion.ai/recordings"
+    "url": "https://usefusion.ai/quests"
   },
-  "anchors": [
-    {
-      "name": "Community",
-      "icon": "discord",
-      "url": "https://discord.gg/ndcf3b5cyU"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://usefusion.ai/blog"
-    }
-  ],
   "navigation": [
     {
       "group": "Get Started",
       "pages": [
         "introduction",
-        "Quests",
-        "createquests",
-        "add-quest-collaborator",
-        "Usingfusionforstudy",
+        "quickstart",
         "FAQs"
+      ]
+    },
+    {
+      "group": "Quests",
+      "pages": [
+        "quests/overview",
+        "quests/creating-a-quest",
+        "quests/running-a-study",
+        "quests/sharing-and-publishing"
+      ]
+    },
+    {
+      "group": "Prompts",
+      "pages": [
+        "prompts/overview",
+        "prompts/response-types",
+        "prompts/categories",
+        "prompts/scheduling",
+        "prompts/conditional-notifications"
+      ]
+    },
+    {
+      "group": "Onboarding & Consent",
+      "pages": [
+        "onboarding/overview",
+        "onboarding/full-text-overview",
+        "onboarding/questions",
+        "onboarding/question-guards",
+        "onboarding/kiosk-mode"
+      ]
+    },
+    {
+      "group": "Experiments",
+      "pages": [
+        "experiments/overview",
+        "experiments/experiment-editor",
+        "experiments/media-uploads",
+        "experiments/ordering-and-assignment",
+        "experiments/running-on-mobile"
+      ]
+    },
+    {
+      "group": "Organizations",
+      "pages": [
+        "organizations/overview",
+        "organizations/creating-an-org",
+        "organizations/members-and-permissions",
+        "organizations/managing-quests"
+      ]
+    },
+    {
+      "group": "Billing & Credits",
+      "pages": [
+        "billing/overview",
+        "billing/purchasing-credits",
+        "billing/expense-breakdown",
+        "billing/funding-other-orgs"
+      ]
+    },
+    {
+      "group": "Integrations",
+      "pages": [
+        "integrations/prolific",
+        "integrations/brain-interfaces",
+        "integrations/wearables"
       ]
     }
   ],

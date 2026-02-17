@@ -1,0 +1,128 @@
+---
+title: "Wearables & Health Data"
+sidebarTitle: "Wearables"
+description: "Collect steps, sleep, and heart rate data from Apple Health, Oura Ring, and Whoop."
+---
+
+Fusion can sync health data from wearable devices and health platforms. This enables longitudinal studies that combine behavioral experiments with physiological measures.
+
+## Supported Platforms
+
+| Platform | Connection Method | Status |
+|---|---|---|
+| **Apple Health** | Direct read (iOS HealthKit) | ✅ Supported |
+| **Oura Ring** | OAuth via Vital API | ✅ Supported |
+| **Whoop** | OAuth via Vital API | ✅ Supported |
+| **Google Fit** | — | 🔜 Coming soon |
+
+## Data Types
+
+Three categories of health data can be collected:
+
+| Data Type | Description | Source |
+|---|---|---|
+| **Steps** | Daily step count | Pedometer / wearable |
+| **Sleep** | Sleep sessions and duration | Wearable / health app |
+| **Heart Rate** | Heart rate samples | Wearable / health app |
+
+## Enabling Health Data in a Quest
+
+When creating or editing a quest, you can enable health data collection:
+
+1. Open the quest editor
+2. Find the **Health Data** configuration section
+3. Toggle the data types you want to collect:
+   - ✅ Steps
+   - ✅ Sleep
+   - ✅ Heart Rate
+4. Save the quest
+
+<Info>
+  Health data collection is only available in the **Fusion mobile app**. Participants must have the app installed and grant health permissions.
+</Info>
+
+## Connecting a Wearable
+
+### Apple Health (Direct)
+
+On iOS, the Fusion app reads directly from Apple HealthKit:
+
+1. Open the quest in the Fusion mobile app
+2. Grant health permissions when prompted
+3. Data syncs automatically
+
+Requested HealthKit permissions include:
+- Step count
+- Sleep analysis
+- Heart rate
+- Workout data
+- Activity summary
+
+### Oura Ring & Whoop (OAuth)
+
+For Oura and Whoop, data syncs through the Vital cloud API:
+
+1. Open the quest in the Fusion mobile app
+2. Tap **Connect Device**
+3. Select **Oura** or **Whoop**
+4. You'll be redirected to the device's OAuth page
+5. Sign in and authorize data sharing
+6. Data syncs automatically once connected
+
+## Data Sync
+
+| Step | What Happens |
+|---|---|
+| **Read** | Health data is read from the last 7 days |
+| **Upload** | Data is posted to the Fusion server |
+| **Storage** | Saved as a `health` dataset type in the quest |
+| **Billing** | Credits charged per sync (see [Pricing](https://usefusion.ai/pricing)) |
+
+Sync statuses you may see:
+
+- `syncing` — Data transfer in progress
+- `successSyncing` — Sync completed successfully
+- `failedSyncing` — Sync failed (will retry)
+- `nothingToSync` — No new data available
+- `syncingCompleted` — All data types finished syncing
+
+## Data Format
+
+Health data is stored as JSON with one entry per date:
+
+```json
+{
+  "date": "2026-03-15",
+  "steps": 8432,
+  "sleep": {
+    "duration": 28800,
+    "start": "2026-03-14T23:15:00Z",
+    "end": "2026-03-15T07:15:00Z"
+  },
+  "heart_rate": {
+    "avg": 72,
+    "min": 58,
+    "max": 145
+  }
+}
+```
+
+## Billing
+
+Each health data sync is billed as `health_data_sync` to the quest's organization. See the **[Pricing page](https://usefusion.ai/pricing)** for current costs.
+
+## Use Cases
+
+| Study Type | Health Data | Why |
+|---|---|---|
+| **Sleep & cognition** | Sleep + experiments | Correlate sleep quality with task performance |
+| **Exercise & mood** | Steps + prompts | Track activity levels alongside self-reported mood |
+| **Stress monitoring** | Heart rate + prompts | Combine physiological stress markers with subjective reports |
+| **Longitudinal wellness** | All three | Comprehensive health tracking over weeks/months |
+
+## Tips
+
+- Health data syncs the **last 7 days** of data, so participants don't need to sync daily
+- Combine health data with [prompts](/prompts/overview) for rich multi-modal datasets
+- Ensure participants understand which health data will be collected — include this in your [onboarding consent](/onboarding/full-text-overview)
+- Apple Health data is read-only — Fusion never writes to HealthKit
