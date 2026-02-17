@@ -1,0 +1,122 @@
+---
+title: "Viewing Quest Data"
+sidebarTitle: "Viewing Quest Data"
+description: "Explore participant responses, experiment results, brain recordings, and health data from your quest dashboard."
+---
+
+Once participants start joining your quest and submitting data, you can monitor and explore everything from the **quest detail page**. Navigate there by clicking on a quest from the quests list.
+
+## Quest Detail Page Overview
+
+The quest detail page shows:
+
+- **Quest title, description, and status** (Draft, Published, or Unpublished)
+- **Action buttons** for publishing, sharing, downloading, and refreshing data
+- **Participant responses table** listing every data submission across all data types
+
+## Data Types
+
+All submissions are displayed in a single **Participant Responses** table with four columns:
+
+| Column | Description |
+|---|---|
+| **User** | The participant's unique identifier (user GUID) |
+| **Type** | The kind of data submitted (see below) |
+| **Timestamp** | When the data was submitted, formatted as `YYYY-MM-DD HH:mm:ss` |
+| **Value** | The response content — displayed inline or with a **View data** button |
+
+The table combines the following data types:
+
+| Type | Description |
+|---|---|
+| `prompt_responses` | Answers to recurring prompts (surveys). The value contains the participant's response text or selection. |
+| `onboarding_responses` | Answers to onboarding/screening questions submitted when the participant joined the quest. |
+| `experiment_trials` | Results from jsPsych experiments. Stored as JSON in blob storage — click **View data** or **Download** to access. |
+| `brain_recordings` | EEG recordings from Neurosity Crown or Muse devices. Stored in blob storage — click **View data** or **Download** to access. |
+
+<Info>
+  Health data (steps, sleep, heart rate) is displayed separately in a **graph view** when available, with a category selector to switch between metrics.
+</Info>
+
+## Viewing Individual Responses
+
+### Prompt & Onboarding Responses
+
+For `prompt_responses` and `onboarding_responses`, click the **View data** button in the Value column. A viewer panel opens below the action bar showing the response as formatted JSON.
+
+### Experiment Trials & Brain Recordings
+
+For `experiment_trials` and `brain_recordings`, each row shows:
+
+- **Dataset name** — the experiment name or recording type (e.g., _"Stroop Task"_ or _"EEG Recording"_)
+- **View data** — opens the data in an inline viewer panel
+- **Download** — downloads the individual dataset as a JSON or CSV file
+- **URL Parameters** (if present) — expandable section showing any URL parameters captured at submission time (e.g., Prolific IDs)
+
+The downloaded file is named using the pattern:
+```
+{type}_{name}_{userGuid}_{timestamp}.{json|csv}
+```
+
+## Dataset Viewer
+
+When you click **View data** on any response, a viewer panel appears showing:
+
+- **Header** — the data type and a truncated user GUID for context
+- **Content** — the full response data rendered as formatted, syntax-highlighted text
+- **Close** button to dismiss the viewer
+
+The viewer supports both JSON and plain-text content. For experiment trials and brain recordings, the data is fetched from blob storage on demand.
+
+## Downloading All Data
+
+Click the **Download Dataset** button in the action bar to export **all** quest data as a single CSV file.
+
+The CSV contains the following columns:
+
+| Column | Description |
+|---|---|
+| `userGuid` | Participant identifier |
+| `questGuid` | Quest identifier |
+| `timestamp` | Unix timestamp of the submission |
+| `type` | Data type (e.g., `prompt_responses`, `experiment_trials - Stroop Task`) |
+| `value` | The full response value (JSON-encoded for complex data) |
+
+<Tip>
+  For experiment trials and brain recordings, the `type` column includes the experiment or dataset name — e.g., `experiment_trials - Stroop Task` — so you can filter by experiment in your analysis tool.
+</Tip>
+
+The file is named `quest_{questId}_data.csv`.
+
+## Health Data (Graph View)
+
+If your quest collects health metrics (steps, sleep, heart rate), the page includes a **graph view** showing trends over the past week.
+
+Use the **category selector** to switch between:
+
+| Category | Metric |
+|---|---|
+| Steps | Daily step count |
+| Sleep | Sleep duration |
+| Heart Rate | Heart rate measurements |
+
+Each participant's data is plotted as a separate series on the line chart.
+
+## Vital User Mapping
+
+If your quest is integrated with the Vital API for wearable data, a **Get Vital to Fusion User Mapping** button appears in the action bar. Clicking it downloads a CSV mapping Vital user IDs to NeuroFusion user GUIDs — useful for reconciling wearable data with participant identities.
+
+## Refreshing Data
+
+Click the **Refresh** button to reload all datasets from the server. This fetches the latest submissions without reloading the entire page.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Running a Study" icon="microscope" href="/quests/running-a-study">
+    Full lifecycle guide including monitoring and export.
+  </Card>
+  <Card title="Sharing & Publishing" icon="share" href="/quests/sharing-and-publishing">
+    Publish your quest and share it with participants.
+  </Card>
+</CardGroup>

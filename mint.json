@@ -40,6 +40,7 @@
         "quests/overview",
         "quests/creating-a-quest",
         "quests/running-a-study",
+        "quests/viewing-quest-data",
         "quests/sharing-and-publishing"
       ]
     },
